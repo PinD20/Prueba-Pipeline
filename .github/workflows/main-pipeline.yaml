@@ -52,6 +52,16 @@ jobs:
           push: true
           dockerfile: ./Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ayd1-backend:latest
+          env: |
+            SECRET_VARIABLE_1=${{ secrets.YOUR_SECRET_1 }}
+            SECRET_VARIABLE_2=${{ secrets.YOUR_SECRET_2 }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASS }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            API_PORT=${{ secrets.API_PORT }}
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
       - name: Build and push Docker image Frontend
         uses: docker/build-push-action@v2
         with:
