@@ -1,0 +1,14 @@
+name: Mi primer job
+
+on:
+  push:
+    branches:
+      - Enrique_202004707
+
+jobs:
+  hello_world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "Hola Mundo!"

@@ -1,0 +1,55 @@
+name: Pipeline principal
+on:
+  push:
+    branches: [ main ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: run tests backend
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: | #Entra a carpeta Backend, instala dependencias y ejecuta tests
+          cd Backend
+          npm install
+          npm run test
+      - name: run tests frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: | #Entra a carpeta Frontend, instala dependencias, levanta frontend y ejecuta tests
+          cd frontend
+          npm install
+          npm start &
+          npm run test:e2e
+
+  build:
+    needs: test #Depende de la etapa de test para continuar
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Docker image Backend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          push: true
+          dockerfile: ./Backend/Dockerfile
+          tags: your-dockerhub-username/ayd1-backend:latest
+      - name: Build and push Docker image Frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          push: true
+          dockerfile: ./frontend/Dockerfile
+          tags: your-dockerhub-username/ayd1-frontend:latest
