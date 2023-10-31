@@ -45,11 +45,11 @@ jobs:
           context: ./
           push: true
           dockerfile: ./Backend/Dockerfile
-          tags: your-dockerhub-username/ayd1-backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ayd1-backend:latest
       - name: Build and push Docker image Frontend
         uses: docker/build-push-action@v2
         with:
           context: ./
           push: true
           dockerfile: ./frontend/Dockerfile
-          tags: your-dockerhub-username/ayd1-frontend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ayd1-frontend:latest
