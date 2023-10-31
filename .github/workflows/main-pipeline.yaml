@@ -25,6 +25,12 @@ jobs:
           npm install
           npm start &
           npm run test:e2e
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3 #action para config y uso de codecov
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} #consumo de variable de nivel repositorio, dada por CodeCoverage
+          fail_ci_if_error: true
+          verbose: true
 
   build:
     needs: test #Depende de la etapa de test para continuar
