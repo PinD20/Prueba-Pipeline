@@ -35,14 +35,6 @@ jobs:
   build:
     needs: test #Depende de la etapa de test para continuar
     runs-on: ubuntu-latest
-    env:
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASS: ${{ secrets.DB_PASS }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      API_PORT: ${{ secrets.API_PORT }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
